@@ -21,37 +21,41 @@ public class Test4 {
             billsList.add(bill);
         }
 
-        billsList = billsList.stream().sorted(Comparator.reverseOrder()).toList();
+        billsList = billsList.stream().sorted().toList();
 
-        List<Integer> result = new ArrayList<>();
-        int stolen = 0;
-        for(int i = 0; i < billTypes; i++){
-            for(int k = 0; k < 2; k++){
-                int bill = billsList.get(i);
-                stolen += bill;
-                if(stolen>sumJoe){
-                    stolen -= bill;
-                    break;
-                }
-                result.add(bill);
-                if(stolen == sumJoe){
-                    result = result.stream().sorted().toList();
 
-                    String res = "";
-                    for (int r:result){
-                        res += r + " ";
+        for(int j = billTypes-1; j >=0; j--){
+            List<Integer> result = new ArrayList<>();
+            int stolen = 0;
+            for(int i = j; i >= 0; i--){
+                for(int k = 0; k < 2; k++){
+                    int bill = billsList.get(i);
+                    stolen += bill;
+                    if(stolen>sumJoe){
+                        stolen -= bill;
+                        break;
+                    }
+                    result.add(bill);
+                    if(stolen == sumJoe){
+                        result = result.stream().sorted().toList();
+
+                        String res = "";
+                        for (int r:result){
+                            res += r + " ";
+                        }
+
+                        writer.write(result.size() + "\n" + res.trim());
+
+                        reader.close();
+                        writer.close();
+                        return;
                     }
 
-                    writer.write(result.size() + "\n" + res.trim());
 
-                    reader.close();
-                    writer.close();
-                    return;
                 }
-
-
             }
         }
+
 
         writer.write(String.valueOf(-1));
 
